@@ -1,0 +1,23 @@
+trigger:
+  - main
+
+  pool:
+    vmImage: 'ubuntu-1604'
+
+  variables:
+    imageName: 'pipelines-practice-devops-group'
+
+  steps:
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        repository: $(imageName)
+        command: build
+        Dockerfile: app/Dockerfile
+
+    - task: Docker@2
+      displayName: Push image
+      inputs:
+        containerRegistry: 'gcr.io/stunning-chain-281818'
+        repository: $(imageName)
+        command: push
